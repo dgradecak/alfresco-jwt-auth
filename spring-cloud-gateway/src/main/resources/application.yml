@@ -1,0 +1,49 @@
+server:
+  use-forward-headers: true
+  
+spring:
+  security:
+    oauth2:
+      client:
+        registration:          
+          google:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_SECRET
+            authorization-grant-type: authorization_code
+            clientName: Google
+            scope: openid,profile,email
+          facebook:
+            clientId: YOUR_CLIENT_ID
+            clientSecret: YOUR_SECRET
+            authorization-grant-type: authorization_code
+            clientName: Facebook
+            scope:
+              - email
+              - public_profile
+        provider:         
+          google:
+            issuer-uri: https://accounts.google.com
+            user-name-attribute: email
+          facebook:
+            user-name-attribute: email
+
+  cloud:
+    gateway:
+      httpclient:
+        pool:
+          type: DISABLED
+      routes:
+        - id: alfresco
+          uri: http://localhost:8080/alfresco
+          predicates:
+            - Path=/alfresco/**
+          filters:            
+            - JwtBearerAuthorizationHeader
+        - id: share
+          uri: http://localhost:8080/share
+          predicates:
+            - Path=/share/**
+          filters:
+            - UsernameHeader=X-Alfresco-Remote-User
+            - JwtBearerAuthorizationHeader=WEB_TOKEN
+
