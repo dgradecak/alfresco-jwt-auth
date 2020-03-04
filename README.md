@@ -5,6 +5,8 @@ Enables OAuth2 for Alfresco and works on Enterprise as well as on Community. Wit
 
 [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
 
+[Spring Boot Admin Server](https://github.com/codecentric/spring-boot-admin) is enabled and accessible at http://localhost:9595/admin
+
 The gateway is used instead of a proxy (such as Nginx or Apache Httpd) and all the trafic should be routed through it. It will add the required headers to the request
 and will send them to Alfresco Share which in its turn will send the received JWT to Alfresco content services.
 
