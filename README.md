@@ -3,6 +3,9 @@ Spring Cloud Gateway for the Alfresco platform
 ===
 Enables OAuth2 for Alfresco and works on Enterprise as well as on Community. With this approach, ACS becomes a resource server.
 
+![Login form](/images/screenshots/login.png)
+*Login with local user or OAuth2*
+
 [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
 
 [Spring Boot Admin Server](https://github.com/codecentric/spring-boot-admin) is enabled and accessible at http://localhost:9595/admin
