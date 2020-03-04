@@ -16,8 +16,11 @@ import com.gradecak.alfresco.jwt.gateway.filter.UsernameHeaderGatewayFilterFacto
 import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.RSASSASigner;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
+
 @Configuration
 @EnableAutoConfiguration
+@EnableAdminServer
 @EnableWebFluxSecurity
 public class CloudGatewayConfiguration {
 
@@ -28,7 +31,7 @@ public class CloudGatewayConfiguration {
 	@Bean
 	public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 		http.authorizeExchange().pathMatchers("/login/**", "/favicon.ico", "/css/**", "/image/**").permitAll().and()
-				.authorizeExchange().anyExchange().authenticated().and().formLogin().and().httpBasic().and()
+				.authorizeExchange().pathMatchers("/admin/**").hasRole("ADMINISTRATOR").anyExchange().authenticated().and().formLogin().and().httpBasic().and()
 				.oauth2Login().and().cors().disable().csrf().disable().headers()
 				.referrerPolicy(ReferrerPolicyServerHttpHeadersWriter.ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE);
 		return http.build();
