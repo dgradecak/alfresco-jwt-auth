@@ -1,5 +1,6 @@
+
 server:
-  use-forward-headers: true
+  forward-headers-strategy: none  
   
 spring:
   security:
@@ -34,13 +35,13 @@ spring:
           type: DISABLED
       routes:
         - id: alfresco
-          uri: http://localhost:8080/alfresco
+          uri: http://localhost:8080/alfresco/
           predicates:
             - Path=/alfresco/**
           filters:            
             - JwtBearerAuthorizationHeader
         - id: share
-          uri: http://localhost:8080/share
+          uri: http://localhost:8080/share/
           predicates:
             - Path=/share/**
           filters:
