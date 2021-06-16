@@ -1,4 +1,5 @@
 
+
 Spring Cloud Gateway for the Alfresco platform
 ===
 Enables OAuth2 for Alfresco and works on Enterprise as well as on Community. With this approach, ACS becomes a resource server.
@@ -40,9 +41,25 @@ if you prefer just using Alfresco External Authentication, without Alfresco Iden
 
 You might experience a redirect loop when using Share through the gateway, this is mainly caused if you login/logout in the same browser session. I recommend that you use an "incognito" browsing mode for each new session, simply to avoid this issue during development.
 
-Alfresco Content Services config
+
+Alfresco Content Services 7 config
 -
-there is no customization needed on the repository side, since here we reuse the Alfresco Identity Service (aka Keycloack) authentication configuration. However we do not need any instance of AIS or Keyloack since the JWT is created and signed by the Spring Cloud Gateway/Spring Security integration.
+Since Alfresco 7, the default identity-service subsystem cannot be used without changing some configuration that is not exposed (it has to be used with Keycloak, there is a need to provide a proper JWT authentication mechanism for ACS.
+
+The new subsystem is located in this repo in the alfresco-jwt-auth-subsystem sub module.
+
+* authentication.chain=alfresco-jwt1:alfresco-jwt
+* alfresco-jwt.authentication.enabled=true
+* alfresco-jwt.realm-public-key=
+
+the key has to be the correct public key from the pair your JWT has been signed with. Beaware that this authentication implementation simply reuses Alfresco identity-service classes and changes the configuration to adapt what is required to function without Keycloak. That means the JWT requires specific claims, which can be seen in com.gradecak.alfresco.jwt.gateway.filter.JwtBearerAuthorizationHeaderGatewayFilterFactory.createToken(...). In the future this mechanism can be changed could work with different JWT claims
+
+This authentication subsystem has a different name "alfresco-jwt" then the "identity-services" and thus can be chained.
+
+
+Alfresco Content Services 6.2 config
+-
+there is no customization needed on the repository side, since here we reuse the Alfresco Identity Service (aka Keycloak) authentication configuration. However we do not need any instance of AIS or Keyloack since the JWT is created and signed by the Spring Cloud Gateway/Spring Security integration.
 
 In order to configure you will need to enable Alfresco identity service authentication (the most common way is via alfresco-global.properties)
 * identity-service.authentication.enabled=true

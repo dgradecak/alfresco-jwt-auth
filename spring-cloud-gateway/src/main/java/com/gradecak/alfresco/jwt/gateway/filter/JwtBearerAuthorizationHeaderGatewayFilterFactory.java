@@ -72,9 +72,9 @@ public class JwtBearerAuthorizationHeaderGatewayFilterFactory
 
 		JWTClaimsSet claimsSet = new JWTClaimsSet.Builder().subject(username)
 				.claim("authorities", Collections.emptyList()).audience("gradecak").claim("username", username)
-				.claim("typ", "Bearer").issuer("http://localhost:8180/auth/realms/alfresco")
-				.claim("preferred_username", username).expirationTime(new Date(new Date().getTime() + 60 * 1000))
-				.build();
+				.claim("typ", "Bearer").issuer("http://localhost:8180/auth/realms/alfresco").claim("realm", "alfresco")
+				.claim("realmUrl", "http://localhost:8180/auth/realms/alfresco").claim("realmurl", "http://localhost:8180/auth/realms/alfresco").claim("realm_url", "http://localhost:8180/auth/realms/alfresco").claim("preferred_username", username)
+				.expirationTime(new Date(new Date().getTime() + 600 * 10000)).build();
 
 		SignedJWT signedJWT = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.RS256).build(), claimsSet);
 

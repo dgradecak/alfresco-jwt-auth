@@ -41,7 +41,8 @@ public class CloudGatewayConfiguration {
 	public JWSSigner jwsSigner() {
 		KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(resource, password.toCharArray());
 
-		return new RSASSASigner(keyStoreKeyFactory.getKeyPair(alias).getPrivate());
+		JWSSigner signer =  new RSASSASigner(keyStoreKeyFactory.getKeyPair(alias).getPrivate());
+		return signer;
 	}
 
 	@Bean
